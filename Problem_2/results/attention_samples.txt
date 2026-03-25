@@ -1,102 +1,102 @@
-Generated Samples from attention Model
-==================================================
-Tarin A Nadda
-Zamil Alam
-Manish Garg
-Omeshkumari Altir Kumar Mi
-Qarip Shahani
-Jaideep a Chand
-Fazir Chauram
-Naina a Childana
-Jaideep a Chand
-Gautam Rehan
-Istyak
-Emran Khatia
-Anil Yadav
-Warita a Gupta
-Zamil Alam
-Manish Garg
-Pradeepa Kanta Meena Meena
-Emran Khatia
-Harishan
-Fazir Chauram
-Qarip Shahani
-Urvashi Seeni
-Warita a Gupta
-Jaideep a Chand
-Tarin A Nadda
-Naina a Childana
-Kamala Meena
-Raj Kumari Mandal
-Kamala Meena
-Pradeepa Kanta Meena Meena
-Yogesh Kumar Minghal
-Fazir Chauram
-Yogesh Kumar Minghal
-Babita Pandey
-Qarip Shahani
-Omeshkumari Altir Kumar Mi
-Urvashi Seeni
-Omeshkumari Altir Kumar Mi
-Anil Yadav
-Kamala Meena
-Xarip Shahani
-Harishan
-Babita Pandey
-Vipan Devi
-Emran Khatia
-Yogesh Kumar Minghal
-Babita Pandey
-Anil Yadav
-Qarip Shahani
-Omeshkumari Altir Kumar Mi
-Deepak Kumar Mishra
-Santoshi
-Urvashi Seeni
-Deepak Kumar Mishra
-Naina a Childana
-Chandra Kaur
-Urvashi Seeni
-Vipan Devi
-Jaideep a Chand
-Lalit Singh
-Yogesh Kumar Minghal
-Harishan
-Jaideep a Chand
-Raj Kumari Mandal
-Warita a Gupta
-Harishan
-Deepak Kumar Mishra
-Harishan
-Babita Pandey
-Fazir Chauram
-Naina a Childana
-Fazir Chauram
-Kamala Meena
-Naina a Childana
-Raj Kumari Mandal
-Pradeepa Kanta Meena Meena
-Manish Garg
-Deepak Kumar Mishra
-Yogesh Kumar Minghal
-Emran Khatia
-Manish Garg
-Anil Yadav
-Anil Yadav
-Harishan
-Tarin A Nadda
-Istyak
-Urvashi Seeni
-Deepak Kumar Mishra
-Jaideep a Chand
-Zamil Alam
-Warita a Gupta
-Deepak Kumar Mishra
-Gautam Rehan
-Babita Pandey
-Qarip Shahani
-Warita a Gupta
-Anil Yadav
-Anil Yadav
-Deepak Kumar Mishra
-Tarin A Nadda
+Generated Samples from attention Model (Temperature = 0.8)
+============================================================
+Ishpreet
+Earraj
+Uttpreet
+Samika
+Devika
+Manmala
+Mansundar
+Omesh
+Jaypreet
+Uttlata
+Navpreet
+Jaylata
+Shivika
+Earpriya
+Shivveer
+Zarpriya
+Uttdir
+Harraj
+Xarkumar
+Rajshree
+Aarkant
+Ishav
+Navshree
+Karraj
+Qarpriya
+Manraj
+Chapal
+Shivav
+Balkumar
+Karan
+Fanvansh
+Yogpreet
+Shivkumar
+Ishesh
+Balpreet
+Samika
+Farsundar
+Karav
+Ishraj
+Fanesh
+Yogika
+Samav
+Balpreet
+Qarkant
+Jayendra
+Karshree
+Fardev
+Qalvansh
+Earnandan
+Tansundar
+Warraj
+Manika
+Ommala
+Balpreet
+Manvansh
+Diveer
+Karansh
+Warnandan
+Divansh
+Rajita
+Mandev
+Ishesh
+Earpriya
+Charala
+Tanpreet
+Rajnath
+Varesh
+Varesh
+Farpreet
+Jaymala
+Earpreet
+Chait
+Farpreet
+Ishkumar
+Xaransh
+Navdev
+Varveer
+Harmala
+Prlaraj
+Zaransh
+Lakshree
+Ishika
+Uttan
+Varansh
+Prasundar
+Ganav
+Ishpreet
+Zaransh
+Warveer
+Uttansh
+Prapreet
+Varendra
+Earav
+Navsundar
+Warav
+Qarkumar
+Rajraj
+Rajlata
+Shivpriya
+Navpreet

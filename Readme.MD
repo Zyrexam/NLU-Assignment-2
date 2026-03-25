@@ -67,10 +67,7 @@ The training data consists of **1,000 unique Indian names** sampled from dataset
 
 1. **Name Extraction:**
    Fetch and prepare the name dataset from online sources.
-   ```bash
-   python Problem_2/name_extract.py
-   ```
-2. **Train & Evaluate:**
+  **Train & Evaluate:**
    Train all three models (Vanilla RNN, BLSTM, and RNN with Attention) and save results.
    ```bash
    python Problem_2/name_generator.py

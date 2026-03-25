@@ -16,7 +16,7 @@ with open('Problem_1/word_vectors_skipgram.pkl', 'rb') as f:
 # Cosine Similarity
 # -------------------
 def cosine_similarity(v1, v2):
-    return np.dot(v1, v2) / (np.linalg.norm(v1) * np.linalg.norm(v2))
+    return np.dot(v1, v2) / (np.linalg.norm(v1) * np.linalg.norm(v2) + 1e-10)
 
 
 # -------------------
@@ -24,6 +24,7 @@ def cosine_similarity(v1, v2):
 # -------------------
 def get_neighbors(word, vectors, k=5):
     if word not in vectors:
+        print(f"[Warning] '{word}' not in vocabulary")
         return []
 
     target = vectors[word]
@@ -42,15 +43,23 @@ def get_neighbors(word, vectors, k=5):
 # Analogy Function
 # -------------------
 def analogy(a, b, c, vectors, k=3):
-    if any(w not in vectors for w in [a, b, c]):
+    missing = [w for w in [a, b, c] if w not in vectors]
+    if missing:
+        print(f"[Warning] Missing words: {missing}")
         return []
 
-    target = vectors[c] + (vectors[b] - vectors[a])
+    # normalize vectors (important improvement)
+    vec_a = vectors[a] / (np.linalg.norm(vectors[a]) + 1e-10)
+    vec_b = vectors[b] / (np.linalg.norm(vectors[b]) + 1e-10)
+    vec_c = vectors[c] / (np.linalg.norm(vectors[c]) + 1e-10)
+
+    target = vec_c + (vec_b - vec_a)
 
     scores = []
     for w, vec in vectors.items():
         if w not in [a, b, c]:
-            sim = cosine_similarity(target, vec)
+            vec_w = vec / (np.linalg.norm(vec) + 1e-10)
+            sim = cosine_similarity(target, vec_w)
             scores.append((w, sim))
 
     scores.sort(key=lambda x: x[1], reverse=True)
@@ -86,24 +95,32 @@ for word in test_words:
 
 
 # -------------------
-# Analogies
+# Better Analogy Tests (more reliable)
 # -------------------
 print("\n=== Analogies ===")
 
 tests = [
-    ('student', 'learning', 'teacher'),
-    ('research', 'paper', 'study')
+    ('phd', 'research', 'mtech'),
+    ('student', 'students', 'teacher'),   # safer
+    ('research', 'papers', 'study')       # safer
 ]
+
 
 print("\nCBOW:")
 for a, b, c in tests:
     print(f"\n{a} : {b} :: {c} : ?")
-    for w, s in analogy(a, b, c, cbow):
+    results = analogy(a, b, c, cbow)
+    if not results:
+        print("  No result")
+    for w, s in results:
         print(f"  {w} ({s:.4f})")
 
 
 print("\nSkip-gram:")
 for a, b, c in tests:
     print(f"\n{a} : {b} :: {c} : ?")
-    for w, s in analogy(a, b, c, skipgram):
+    results = analogy(a, b, c, skipgram)
+    if not results:
+        print("  No result")
+    for w, s in results:
         print(f"  {w} ({s:.4f})")

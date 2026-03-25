@@ -2,6 +2,7 @@ import numpy as np
 import pickle
 import random
 from collections import Counter
+from Problem_1.utils import plot_training_loss
 
 
 # Load data
@@ -30,7 +31,7 @@ for sent in indexed_sentences:
 # Model
 # -------------------
 class SkipGram:
-    def __init__(self, vocab_size, dim=100, window=5, lr=0.0, neg_samples=10):
+    def __init__(self, vocab_size, dim=300, window=3, lr=0.025, neg_samples=10):
         self.W = np.random.randn(vocab_size, dim) * 0.01
         self.C = np.random.randn(vocab_size, dim) * 0.01
 
@@ -107,16 +108,22 @@ model = SkipGram(len(vocab))
 
 print("Training...")
 
-for epoch in range(5):
+epoch_losses = []
+for epoch in range(3):
     random.shuffle(indexed_sentences)
 
     total_loss = 0
     for sent in indexed_sentences:
         total_loss += model.train_sentence(sent)
 
-    print(f"Epoch {epoch+1} Loss: {total_loss/len(indexed_sentences):.4f}")
+    epoch_loss = total_loss / len(indexed_sentences)
+    epoch_losses.append(epoch_loss)
+
+    print(f"Epoch {epoch+1} Loss: {epoch_loss:.4f}")
     model.lr *= 0.95
 
+# Plot training curve
+plot_training_loss(list(range(1, len(epoch_losses)+1)), epoch_losses, 'Problem_1/skipgram_training_loss.png')
 
 # Save embeddings
 reverse_vocab = {idx: word for word, idx in vocab.items()}

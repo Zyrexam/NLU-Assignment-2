@@ -1,23 +1,27 @@
 import os
-import random
-import string
 import torch
+import string
+import random
+import requests
+import pandas as pd
 import torch.nn as nn
 import torch.optim as optim
 
 # ====================== CONFIG ======================
 TRAINING_FILE = 'Problem_2/TrainingNames.txt'
 HIDDEN_SIZE = 128
-NUM_ITERS = 25000
+NUM_ITERS = 30000          
 LEARNING_RATE = 0.001
 DEVICE = 'cuda' if torch.cuda.is_available() else 'cpu'
 NUM_EVAL_SAMPLES = 1000
 NUM_SAMPLE_NAMES = 100
+TEMPERATURE = 0.9
 
 all_letters = string.ascii_letters + " '-"
 n_letters = len(all_letters) + 1
 
-# ====================== DATA ======================
+        
+        
 def read_names():
     with open(TRAINING_FILE, 'r', encoding='utf-8') as f:
         names = [line.strip() for line in f if line.strip()]
@@ -94,7 +98,7 @@ class RNNWithAttention(nn.Module):
 
         out = self.fc(out)
         return out, h
-
+    
     def init_hidden(self):
         return torch.zeros(1, 1, HIDDEN_SIZE, device=DEVICE)
 
@@ -111,6 +115,9 @@ def train(model, names, model_name):
         name = random.choice(names)
         inp = name_to_tensor(name)[:-1].to(DEVICE)
         tgt = name_to_tensor(name)[1:].to(DEVICE)
+
+        if random.random() < 0.1:
+            inp = inp + 0.01 * torch.randn_like(inp)
 
         h = model.init_hidden()
         loss = 0.0
@@ -136,11 +143,12 @@ def train(model, names, model_name):
     print(f"{model_name} training finished and saved!\n")
 
 
-# ====================== SAMPLING ======================
-def generate_name(model, max_len=25):
+
+# ====================== SAMPLING with TEMPERATURE ======================
+def generate_name(model, max_len=35, temperature=TEMPERATURE):   
     model.eval()
     with torch.no_grad():
-        start = random.choice(string.ascii_uppercase)
+        start = random.choice(all_letters)
         x = torch.zeros(1, 1, n_letters, device=DEVICE)
         x[0, 0, all_letters.find(start)] = 1
 
@@ -155,15 +163,24 @@ def generate_name(model, max_len=25):
             else:
                 output, h = model(x, h)
 
-            idx = output[0, 0].argmax()
-            if idx == n_letters - 1:
+            # === TOP-K SAMPLING ===
+            logits = output[0, 0] / temperature
+            k = 5
+            values, indices = torch.topk(logits, k)
+            probs = torch.softmax(values, dim=0)
+            idx = indices[torch.multinomial(probs, 1)].item()
+
+            if idx == n_letters - 1:   # EOS
                 break
+
             ch = all_letters[idx]
             name += ch
 
             x = torch.zeros(1, 1, n_letters, device=DEVICE)
             x[0, 0, idx] = 1
+
         return name
+
 
 
 # ====================== EVALUATION & SAVING ======================
@@ -171,7 +188,10 @@ def evaluate_and_save(model, names, model_name):
     print(f"Evaluating {model_name}...")
 
     generated = [generate_name(model) for _ in range(NUM_EVAL_SAMPLES)]
-    generated = [g for g in generated if len(g) > 2]
+    generated = [g for g in generated if len(g) > 3]
+    
+    print(len(generated), len(set(generated)))
+    
 
     train_set = set(names)
     novelty = sum(1 for g in generated if g not in train_set) / len(generated) * 100 if generated else 0
@@ -184,14 +204,12 @@ def evaluate_and_save(model, names, model_name):
     # Save results
     os.makedirs("Problem_2/results", exist_ok=True)
 
-    # Save 100 sample names
     with open(f"Problem_2/results/{model_name}_samples.txt", "w", encoding="utf-8") as f:
-        f.write(f"Generated Samples from {model_name} Model\n")
-        f.write("="*50 + "\n")
+        f.write(f"Generated Samples from {model_name} Model (Temperature = {TEMPERATURE})\n")
+        f.write("="*60 + "\n")
         for name in generated[:NUM_SAMPLE_NAMES]:
             f.write(name + "\n")
 
-    # Save metrics
     with open(f"Problem_2/results/{model_name}_metrics.txt", "w", encoding="utf-8") as f:
         f.write(f"Model: {model_name}\n")
         f.write(f"Novelty Rate: {novelty:.2f}%\n")
@@ -206,8 +224,8 @@ if __name__ == "__main__":
     names = read_names()
 
     models = {
-        "vanilla": VanillaRNN(),
-        "blstm": BLSTM(),
+        # "vanilla":   VanillaRNN(),
+        "blstm":     BLSTM(),
         "attention": RNNWithAttention()
     }
 
@@ -227,22 +245,24 @@ if __name__ == "__main__":
         nov, div = evaluate_and_save(model, names, mname)
         results[mname] = (nov, div)
 
-    # Final Comparison Table
-    print("\n" + "="*65)
+    # Final Comparison
+    print("\n" + "="*70)
     print("FINAL COMPARISON TABLE")
-    print("="*65)
+    print("="*70)
     print(f"{'Model':<12} {'Novelty Rate (%)':<20} {'Diversity (%)':<15}")
-    print("-"*65)
+    print("-"*70)
     for m, (n, d) in results.items():
         print(f"{m:<12} {n:<20.2f} {d:<15.2f}")
-    print("="*65)
+    print("="*70)
 
     # Save final comparison
+    os.makedirs("Problem_2/results", exist_ok=True)
     with open("Problem_2/results/final_comparison.txt", "w", encoding="utf-8") as f:
         f.write("FINAL COMPARISON TABLE\n")
-        f.write("="*65 + "\n")
+        f.write("="*70 + "\n")
         f.write(f"{'Model':<12} {'Novelty Rate (%)':<20} {'Diversity (%)':<15}\n")
-        f.write("-"*65 + "\n")
+        f.write("-"*70 + "\n")
         for m, (n, d) in results.items():
             f.write(f"{m:<12} {n:<20.2f} {d:<15.2f}\n")
-        f.write("="*65 + "\n")
+        f.write("="*70 + "\n")
+

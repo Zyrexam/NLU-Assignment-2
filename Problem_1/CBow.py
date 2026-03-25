@@ -31,7 +31,7 @@ print("Valid sentences:", len(indexed_sentences))
 # CBOW Model
 # ---------------------------
 class CBOW:
-    def __init__(self, vocab_size, embed_dim=100, window=5, lr=0.025):
+    def __init__(self, vocab_size, embed_dim=300, window=5, lr=0.025):
         self.embed_dim = embed_dim
         self.window = window
         self.lr = lr
