@@ -63,18 +63,3 @@ axes[1].grid()
 plt.tight_layout()
 plt.savefig("Problem_1/tsne_comparison.png", dpi=300)
 plt.show()
-
-
-
-
-import pickle
-
-with open("Problem_1/word_vectors_skipgram.pkl", "rb") as f:
-    word_vectors = pickle.load(f)
-
-query_word = "engineering"
-if query_word in word_vectors:
-    vec = word_vectors[query_word]
-    print(f"{query_word} - " + ", ".join(f"{v:.4f}" for v in vec))
-else:
-    print("Not in vocab")
