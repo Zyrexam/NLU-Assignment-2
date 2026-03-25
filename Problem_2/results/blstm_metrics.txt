@@ -1,4 +1,0 @@
-Model: blstm
-Novelty Rate: 21.00%
-Diversity: 58.90%
-Valid names generated: 1000

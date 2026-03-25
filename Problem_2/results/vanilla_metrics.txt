@@ -1,4 +1,0 @@
-Model: vanilla
-Novelty Rate: 94.15%
-Diversity: 91.70%
-Valid names generated: 940

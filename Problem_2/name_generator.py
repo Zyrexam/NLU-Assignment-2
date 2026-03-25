@@ -201,21 +201,6 @@ def evaluate_and_save(model, names, model_name):
     print(f"   Diversity    : {diversity:.2f}%")
     print(f"   Valid names  : {len(generated)}\n")
 
-    # Save results
-    os.makedirs("Problem_2/results", exist_ok=True)
-
-    with open(f"Problem_2/results/{model_name}_samples.txt", "w", encoding="utf-8") as f:
-        f.write(f"Generated Samples from {model_name} Model (Temperature = {TEMPERATURE})\n")
-        f.write("="*60 + "\n")
-        for name in generated[:NUM_SAMPLE_NAMES]:
-            f.write(name + "\n")
-
-    with open(f"Problem_2/results/{model_name}_metrics.txt", "w", encoding="utf-8") as f:
-        f.write(f"Model: {model_name}\n")
-        f.write(f"Novelty Rate: {novelty:.2f}%\n")
-        f.write(f"Diversity: {diversity:.2f}%\n")
-        f.write(f"Valid names generated: {len(generated)}\n")
-
     return novelty, diversity
 
 
@@ -224,7 +209,7 @@ if __name__ == "__main__":
     names = read_names()
 
     models = {
-        # "vanilla":   VanillaRNN(),
+        "vanilla":   VanillaRNN(),
         "blstm":     BLSTM(),
         "attention": RNNWithAttention()
     }

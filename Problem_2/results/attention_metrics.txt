@@ -1,4 +1,0 @@
-Model: attention
-Novelty Rate: 21.60%
-Diversity: 50.30%
-Valid names generated: 1000
